@@ -124,6 +124,39 @@ button:disabled {
   max-width: 760px;
 }
 
+.app-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 20px 24px 28px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.app-footer-line {
+  margin: 0 0 6px;
+  font-weight: 500;
+}
+
+.app-footer-line a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.app-footer-line a:hover {
+  text-decoration: underline;
+}
+
+.app-footer-note {
+  margin: 0;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 11px;
+  opacity: 0.85;
+}
+
 /* ── Cards ── */
 .card {
   background: var(--surface);

@@ -77,7 +77,7 @@ export default function App() {
     <>
       <header className="app-header">
         <h1>DrillForge</h1>
-        <span className="badge">A+ 220-1201 Core 1</span>
+        <span className="badge">A+ V15 · Core 1 + Core 2</span>
         {screen !== 'home' && (
           <button className="btn-ghost" style={{ marginLeft: 'auto' }} onClick={restart}>
             ← Exit
@@ -114,6 +114,17 @@ export default function App() {
           )}
         </div>
       </main>
+
+      <footer className="app-footer">
+        <p className="app-footer-line">
+          Created by <a href="https://gilruiz.dev" target="_blank" rel="noopener noreferrer">Gilberto Ruiz</a>
+          {' · '}
+          <a href="https://github.com/IGRGT/drillforge" target="_blank" rel="noopener noreferrer">open source on GitHub</a>
+        </p>
+        <p className="app-footer-note">
+          Question content authored from CompTIA's official 220-1201 / 220-1202 V15 exam objectives. Lab images CC-licensed from Wikimedia Commons. Free to fork, modify, and redistribute. Not affiliated with or endorsed by CompTIA.
+        </p>
+      </footer>
     </>
   )
 }
