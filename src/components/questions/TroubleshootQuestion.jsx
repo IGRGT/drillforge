@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const LETTERS = ['A', 'B', 'C', 'D']
 
-export default function TroubleshootQuestion({ question, onSubmit, submitted }) {
+export default function TroubleshootQuestion({ question, onSubmit, submitted, onIdk }) {
   const [stepIndex,  setStepIndex]  = useState(0)
   const [selected,   setSelected]   = useState(null)
   const [stepResult, setStepResult] = useState(null)
@@ -97,7 +97,12 @@ export default function TroubleshootQuestion({ question, onSubmit, submitted }) 
       )}
 
       {!stepResult ? (
-        <div className="actions">
+        <div className="actions" style={{ justifyContent: 'space-between' }}>
+          {onIdk && stepIndex === 0 ? (
+            <button className="btn-ghost" onClick={onIdk}>
+              I don't know <kbd style={{ marginLeft: 6 }}>0</kbd>
+            </button>
+          ) : <span />}
           <button className="btn-primary" onClick={submitStep} disabled={selected === null}>
             Submit
           </button>

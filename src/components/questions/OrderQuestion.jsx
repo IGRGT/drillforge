@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 
-export default function OrderQuestion({ question, onSubmit, submitted }) {
+export default function OrderQuestion({ question, onSubmit, submitted, onIdk }) {
   const shuffled = useMemo(
     () => [...question.items].sort(() => Math.random() - 0.5),
     [question.id]
@@ -69,21 +69,28 @@ export default function OrderQuestion({ question, onSubmit, submitted }) {
       </div>
 
       {!submitted && (
-        <div className="actions">
-          <button
-            className="btn-ghost"
-            onClick={() => setOrder([])}
-            disabled={order.length === 0}
-          >
-            Reset
-          </button>
-          <button
-            className="btn-primary"
-            onClick={submit}
-            disabled={order.length !== question.items.length}
-          >
-            Submit ({order.length}/{question.items.length})
-          </button>
+        <div className="actions" style={{ justifyContent: 'space-between' }}>
+          {onIdk ? (
+            <button className="btn-ghost" onClick={onIdk}>
+              I don't know <kbd style={{ marginLeft: 6 }}>0</kbd>
+            </button>
+          ) : <span />}
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button
+              className="btn-ghost"
+              onClick={() => setOrder([])}
+              disabled={order.length === 0}
+            >
+              Reset
+            </button>
+            <button
+              className="btn-primary"
+              onClick={submit}
+              disabled={order.length !== question.items.length}
+            >
+              Submit ({order.length}/{question.items.length})
+            </button>
+          </div>
         </div>
       )}
 

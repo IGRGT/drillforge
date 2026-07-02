@@ -1,12 +1,14 @@
-export default function Feedback({ correct, explanation, partial }) {
+export default function Feedback({ correct, explanation, partial, idk }) {
   let header
-  if (correct && partial)       header = '½ Correct — half points (got it on retry)'
+  if (idk)                      header = '○ Skipped — no credit, full breakdown below'
+  else if (correct && partial)  header = '½ Correct — half points (got it on retry)'
   else if (correct && !partial) header = '✓ Correct'
   else                          header = '✗ Incorrect'
 
-  const className = correct
-    ? (partial ? 'feedback partial' : 'feedback correct')
-    : 'feedback incorrect'
+  let className
+  if (idk)          className = 'feedback skipped'
+  else if (correct) className = partial ? 'feedback partial' : 'feedback correct'
+  else              className = 'feedback incorrect'
 
   return (
     <div className={className}>

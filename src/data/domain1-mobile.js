@@ -1,5 +1,5 @@
 // Domain 1 — Mobile Devices PBQ Scenarios
-// 15% of the exam
+// 13% of the exam (220-1201 V15)
 
 export const domain1 = [
 
@@ -12,6 +12,7 @@ export const domain1 = [
     topic: '1.1 Laptop Display Internals',
     difficulty: 'medium',
     video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    image: '/images/ccfl-inverter.jpg',
     question: 'A customer brings in a 2009 laptop with a very dim screen. You can faintly see the desktop if you hold a flashlight to the screen. Connecting to an external monitor works perfectly. What is the most likely cause?',
     options: [
       'The GPU has failed',
@@ -30,6 +31,7 @@ export const domain1 = [
     topic: '1.1 Laptop Display Internals',
     difficulty: 'medium',
     video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    image: '/images/ccfl-inverter.jpg',
     question: 'A 2008 ThinkPad belonging to a graphic designer powers on, plays the boot chime, and the user reports they can only read the screen by tilting a desk lamp directly onto it. They printed a document successfully via the docking station\'s VGA output to a projector. Which component should the technician replace first?',
     options: [
       'The integrated graphics chip on the motherboard',
@@ -66,6 +68,7 @@ export const domain1 = [
     topic: '1.1 Laptop Display Internals',
     difficulty: 'easy',
     video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    image: '/images/lcd-layers.svg',
     question: 'A customer\'s touchscreen laptop takes no touch input anywhere on the screen, but the display image looks perfect with no distortion. What has failed?',
     options: [
       'The LCD panel',
@@ -84,6 +87,7 @@ export const domain1 = [
     topic: '1.1 Laptop Display Internals',
     difficulty: 'easy',
     video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    image: '/images/lcd-layers.svg',
     question: 'A nurse\'s 2-in-1 Surface device displays charting software clearly with no visual artifacts, but stylus and finger taps are completely ignored across the entire screen. Buttons still work via the attached keyboard. Which layer is the failure isolated to?',
     options: [
       'The IPS LCD panel (image quality would be degraded if this were the case)',
@@ -120,6 +124,7 @@ export const domain1 = [
     topic: '1.1 Laptop Disassembly',
     difficulty: 'easy',
     video: 'https://www.youtube.com/watch?v=BCTuxEAA50k',
+    image: '/images/zif-connector-ffc.jpg',
     question: 'A technician is removing a laptop keyboard ribbon cable. The cable won\'t budge when pulled. No tools are gripping it. What is the correct next step?',
     options: [
       'Pull harder — ribbon cables require firm force to release',
@@ -138,6 +143,7 @@ export const domain1 = [
     topic: '1.1 Laptop Disassembly',
     difficulty: 'easy',
     video: 'https://www.youtube.com/watch?v=BCTuxEAA50k',
+    image: '/images/zif-connector-ffc.jpg',
     question: 'A new repair tech is replacing a trackpad on an HP EliteBook. The trackpad ribbon goes into a small black socket with a hinged dark strip on top. The tech tries to slide the ribbon out and it won\'t budge. What is the correct procedure to disengage the ribbon without damage?',
     options: [
       'Apply isopropyl alcohol to loosen the contact adhesive, then slide the ribbon out',
@@ -156,6 +162,7 @@ export const domain1 = [
     topic: '1.1 Laptop Disassembly',
     difficulty: 'medium',
     video: 'https://www.youtube.com/watch?v=BCTuxEAA50k',
+    image: '/images/zif-connector-ffc.jpg',
     question: 'A repair school student tears a fingerprint reader ribbon while removing it because they applied force without realizing the connector was a ZIF type. After replacing the ribbon, they reassemble. On power-up, the fingerprint reader is not detected. They reopen and confirm the ribbon is fully seated. What is the most likely remaining cause?',
     options: [
       'The replacement ribbon is incompatible — fingerprint readers require OEM-only cables',
@@ -228,6 +235,7 @@ export const domain1 = [
     topic: '1.2 Docking Stations',
     difficulty: 'medium',
     video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    image: '/images/thunderbolt-ports.jpg',
     question: 'A user connects a Thunderbolt 4 dock to their laptop via a USB-C cable. The USB devices and charging work, but no video appears on the external monitors connected to the dock. What is the most likely cause?',
     options: [
       'The monitors need to be connected via HDMI, not DisplayPort',
@@ -264,6 +272,7 @@ export const domain1 = [
     topic: '1.2 Docking Stations',
     difficulty: 'easy',
     video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    image: '/images/thunderbolt-ports.jpg',
     question: 'A technician is helping a remote worker pick a docking station. The worker has a 2024 laptop with a USB-C port marked with a small lightning bolt icon next to it. They want one cable that handles two 4K monitors, charging, and a USB hub. Which dock category is appropriate?',
     options: [
       'A Thunderbolt 4 dock — the lightning bolt icon confirms the port supports Thunderbolt, which provides 40 Gbps for video + data + power over a single cable',
@@ -336,6 +345,7 @@ export const domain1 = [
     topic: '1.1 Laptop Hardware',
     difficulty: 'easy',
     video: 'https://www.youtube.com/watch?v=BCTuxEAA50k',
+    image: '/images/sodimm-comparison.svg',
     question: 'A customer wants to upgrade the RAM in their new ultrabook from 8GB to 16GB. You check the specs and find the RAM is listed as "LPDDR5 on-board." What do you tell the customer?',
     options: [
       'They need to purchase LPDDR5 SODIMMs from the manufacturer',
@@ -372,6 +382,7 @@ export const domain1 = [
     topic: '1.1 Laptop Hardware',
     difficulty: 'medium',
     video: 'https://www.youtube.com/watch?v=BCTuxEAA50k',
+    image: '/images/sodimm-comparison.svg',
     question: 'A technician is comparing two laptop spec sheets for a customer who wants future RAM upgradability. Laptop A lists "16 GB LPDDR5X (soldered)." Laptop B lists "16 GB DDR5 SODIMM (1 of 2 slots used)." Which laptop should the customer pick if upgradability is the priority?',
     options: [
       'Laptop A — LPDDR5X is a newer standard and therefore upgradable',
@@ -1101,6 +1112,7 @@ export const domain1 = [
     domain: '1',
     topic: '1.3 Laptop Hardware — Battery',
     difficulty: 'easy',
+    image: '/images/swollen-battery.jpg',
     question: 'A laptop battery has visibly bulged and is pushing the trackpad upward. The laptop still turns on. What is the correct response?',
     options: [
       'Continue using it until the battery completely fails',
@@ -1118,6 +1130,7 @@ export const domain1 = [
     domain: '1',
     topic: '1.3 Laptop Hardware — Battery',
     difficulty: 'easy',
+    image: '/images/swollen-battery.jpg',
     question: 'A user reports that the back panel of their phone is bulging outward and the screen has lifted slightly off the chassis on one side. The phone still works. What should a technician advise?',
     options: [
       'Squeeze the back panel firmly to push the swollen cell back into shape',
@@ -1135,6 +1148,7 @@ export const domain1 = [
     domain: '1',
     topic: '1.3 Laptop Hardware — Battery',
     difficulty: 'medium',
+    image: '/images/swollen-battery.jpg',
     question: 'A help desk receives an email with a photo of a laptop showing the bottom case bowed outward. The user wrote, "Battery is super hot, laptop still runs but it smells weird." What is the appropriate immediate-action response?',
     options: [
       'Tell the user to keep working until end-of-day to preserve productivity',
@@ -1144,5 +1158,233 @@ export const domain1 = [
     ],
     correct: 1,
     explanation: 'Heat + swelling + odor is the late-stage warning sign before thermal runaway. The correct sequence is immediate isolation: power off, disconnect AC, move to a non-flammable surface, evacuate if needed, escalate to safety personnel. Water creates a short-circuit risk and can accelerate failure. Tossing a swollen lithium cell in standard trash is illegal in most jurisdictions and a fire hazard.',
+  },
+
+  // ── ADDITIONS 2026-05-07 — modern panel era + soldered hardware + eSIM lifecycle ──
+
+  // Modern LED-backlit LCD (no inverter) — directly addresses old vs new laptop confusion
+  {
+    id: 'd1-id-012',
+    type: 'identify',
+    domain: '1',
+    topic: '1.1 Laptop Display Internals',
+    difficulty: 'easy',
+    video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    image: '/images/ccfl-inverter.jpg',
+    question: 'A 2023 ultrabook has a completely dark screen but the boot chime plays and an external monitor shows the desktop. A junior tech orders an "inverter board" from the parts catalog. What is wrong with that part choice?',
+    options: [
+      'Inverter boards are always sold paired with the LCD; they should order both',
+      'Modern laptops use LED backlights driven directly from the main power rail — there is no inverter board because LEDs do not need the high-voltage AC that CCFL tubes did. The fault is in the LED strip or its driver circuit, typically replaced as part of the LCD assembly',
+      'Inverter boards from 2023 are now integrated into the keyboard',
+      'The tech should order a CCFL tube instead',
+    ],
+    correct: 1,
+    explanation: 'Inverter boards belong to the CCFL era (roughly pre-2010 laptops). CCFL backlights need a small AC supply to fire the fluorescent tube; the inverter generates that. Modern laptops use LED backlighting which runs directly off DC — no inverter exists in the parts list. When a modern LED-backlit LCD goes black, the failure is the LED strip or its driver IC, and the standard repair is replacing the whole LCD assembly.',
+  },
+
+  {
+    id: 'd1-id-012-var1',
+    type: 'identify',
+    domain: '1',
+    topic: '1.1 Laptop Display Internals',
+    difficulty: 'medium',
+    video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    image: '/images/ccfl-inverter.jpg',
+    question: 'A repair shop receives two laptops on the same day with identical complaint: "screen totally dark but external monitor works." Laptop A is a 2008 Dell with CCFL backlight. Laptop B is a 2024 ASUS with LED backlight. How do the diagnostic and repair paths differ?',
+    options: [
+      'Both repairs are identical — replace the inverter board',
+      'Laptop A: swap-test the inverter first, then the CCFL tube. Laptop B: there is no inverter; the LED backlight is integrated with the LCD assembly, so the assembly is replaced as one unit',
+      'Both repairs are identical — replace the LCD assembly',
+      'Laptop A needs a software driver update; Laptop B needs the inverter',
+    ],
+    correct: 1,
+    explanation: 'The two eras have fundamentally different display power architectures. CCFL-era laptops have a discrete inverter board that is cheap to swap-test before committing to the harder CCFL tube replacement. LED-era laptops eliminate the inverter entirely (LEDs run on DC) and integrate the backlight LEDs and their driver into the LCD assembly itself. Field repair on modern laptops is almost always whole-assembly replacement, not component-level rework.',
+  },
+
+  {
+    id: 'd1-id-012-var2',
+    type: 'identify',
+    domain: '1',
+    topic: '1.1 Laptop Display Internals',
+    difficulty: 'medium',
+    video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    question: 'A customer\'s 2022 MacBook Air shows a normal image but the entire screen is uniformly very dim, even at maximum brightness in System Settings. Connecting an external monitor produces a normal-brightness image. The flashlight test on the internal screen still shows a faint desktop image. What component is the most likely cause?',
+    options: [
+      'A failing inverter board in the lid',
+      'The LED backlight or its driver is failing — image data is reaching the LCD (flashlight test confirms LCD is fine), but the LED illumination behind the panel is degraded. On modern laptops this is replaced as part of the LCD assembly',
+      'The external monitor is interfering with the internal panel\'s brightness',
+      'The macOS automatic brightness sensor needs recalibration',
+    ],
+    correct: 1,
+    explanation: 'The flashlight test shows a faint image — confirming the LCD itself is producing the image but illumination is weak. On a modern LED-backlit laptop there is no inverter; the LED strip or its constant-current driver has failed. Auto-brightness recalibration cannot fix a hardware backlight issue. External monitor working is independent — that is the GPU output path, not the lid backlight. Repair = LCD assembly replacement.',
+  },
+
+  // OLED specifics (modern panel type Gil might confuse with LCD)
+  {
+    id: 'd1-id-013',
+    type: 'identify',
+    domain: '1',
+    topic: '1.1 Laptop Display Internals',
+    difficulty: 'medium',
+    video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    image: '/images/lcd-layers.svg',
+    question: 'A user comparing two laptops asks why the OLED model shows "perfectly black" black, while the LCD model\'s blacks look gray in a dark room. What is the technical reason?',
+    options: [
+      'OLED panels use a higher-quality polarizer film',
+      'OLED pixels are emissive — each pixel produces its own light and is fully off when displaying black, producing true black. LCD panels rely on a backlight that is always on; the liquid crystals can only block light, not eliminate it, so some light always leaks through and black appears as dark gray',
+      'OLED has more pixels than LCD',
+      'LCD panels intentionally raise their black level to extend backlight lifespan',
+    ],
+    correct: 1,
+    explanation: 'This is the fundamental architectural difference between OLED and LCD. OLED is emissive — each organic LED pixel is its own light source and turns off completely for black, producing true black with infinite contrast. LCD is transmissive — a constant backlight shines through liquid-crystal cells that twist to block or pass light, but the blocking is never 100%, so some backlight always leaks and "black" shows as dark gray (especially visible in a dark room).',
+  },
+
+  {
+    id: 'd1-id-013-var1',
+    type: 'identify',
+    domain: '1',
+    topic: '1.1 Laptop Display Internals',
+    difficulty: 'easy',
+    video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    question: 'A graphic designer with a 2-year-old OLED laptop reports that a faint outline of the menu bar and Photoshop\'s tool palette is visible even when those apps are closed. The ghosted shapes are most visible against a uniform light gray background. What is happening?',
+    options: [
+      'A Windows registry corruption is leaking UI fragments to the GPU buffer',
+      'OLED burn-in (image retention) — organic LEDs that display the same content for long periods age unevenly, and the over-used pixels become permanently dimmer, leaving a ghost of the static UI elements',
+      'The laptop\'s display cable is shorted',
+      'Photoshop\'s GPU acceleration is corrupted',
+    ],
+    correct: 1,
+    explanation: 'Burn-in (image retention) is the well-known OLED weakness. Organic LEDs degrade with use, and pixels driven hard for the same image (taskbars, menu bars, app palettes) age faster than surrounding pixels. The result is a permanent dimming pattern matching the static UI. Mitigations: hide the taskbar, dark mode, screen savers, and built-in pixel-shifting features. LCDs do not have this failure mode because the pixels are passive transmitters and the backlight is uniform.',
+  },
+
+  {
+    id: 'd1-id-013-var2',
+    type: 'identify',
+    domain: '1',
+    topic: '1.1 Laptop Display Internals',
+    difficulty: 'easy',
+    video: 'https://www.youtube.com/watch?v=2qlMgFsn9lc',
+    question: 'A customer is choosing between an OLED and an LCD laptop and asks which display type is better for someone whose daily workflow has a static window layout (terminal on the left, IDE on the right, the same toolbars open eight hours a day). What is the right advice?',
+    options: [
+      'OLED — the higher contrast helps with reading code',
+      'LCD — static UI for many hours per day is the worst case for OLED burn-in. LCD has no burn-in failure mode because the pixels are passive transmitters lit by a uniform backlight',
+      'Either is fine — burn-in was eliminated in OLED panels after 2020',
+      'OLED with auto-brightness disabled — auto-brightness causes burn-in',
+    ],
+    correct: 1,
+    explanation: 'Static UI for long sessions is exactly the OLED burn-in worst case. While modern OLED has improved (subpixel layouts, pixel shifting, brightness tracking), the underlying physics has not changed: organic LEDs age with use, and uneven use produces uneven aging. For a static-layout workflow over years of ownership, LCD is the safer recommendation. OLED shines for varied content (video, gaming, photo editing).',
+  },
+
+  // Modern soldered hardware (1.1 Laptop Hardware)
+  {
+    id: 'd1-id-014',
+    type: 'identify',
+    domain: '1',
+    topic: '1.1 Laptop Hardware',
+    difficulty: 'easy',
+    video: 'https://www.youtube.com/watch?v=BCTuxEAA50k',
+    image: '/images/m2-nvme-ssd.jpg',
+    question: 'A customer wants to upgrade the storage on a budget Chromebook from 64 GB to 256 GB. The spec sheet lists the storage as "64 GB eMMC." What does the technician explain?',
+    options: [
+      'They can remove the bottom panel and replace the eMMC card with a larger one',
+      'eMMC (embedded MultiMediaCard) is a flash storage chip soldered to the motherboard. There is no slot, no card to swap. The laptop\'s storage is fixed at 64 GB. Workaround: external USB drive or microSD if the device has a slot',
+      'Chromebooks use cloud-only storage; the 64 GB is a marketing label',
+      'Chrome OS will automatically grow the storage with use',
+    ],
+    correct: 1,
+    explanation: 'eMMC is soldered flash storage commonly used in inexpensive laptops, Chromebooks, and tablets. It is part of the motherboard, not a removable component, so capacity cannot be upgraded. The customer\'s only path to more usable space is an external drive or, if the device has it, a microSD card. Higher-end laptops use M.2 NVMe SSD slots (replaceable); cheap devices use eMMC (fixed).',
+  },
+
+  {
+    id: 'd1-id-014-var1',
+    type: 'identify',
+    domain: '1',
+    topic: '1.1 Laptop Hardware',
+    difficulty: 'medium',
+    video: 'https://www.youtube.com/watch?v=BCTuxEAA50k',
+    image: '/images/sodimm-comparison.svg',
+    question: 'A customer brings a 2024 ultrabook for a "full upgrade" — they want more RAM, more storage, and a fresh battery. The bottom-cover-off inspection reveals: RAM marked "LPDDR5X soldered", storage on a single soldered NAND chip, and the battery glued in with strong adhesive strips. What can the shop actually offer?',
+    options: [
+      'Full RAM, storage, and battery upgrade — these are all standard parts',
+      'No RAM upgrade (soldered LPDDR5X has no SODIMM equivalent), no internal storage upgrade (soldered NAND), but battery replacement is possible with proper adhesive removal procedure and a replacement pack — though it is a service job, not a user-accessible swap',
+      'Replace the entire motherboard for a RAM and storage upgrade',
+      'Reflash the BIOS to unlock additional capacity',
+    ],
+    correct: 1,
+    explanation: 'Modern thin-and-light laptops increasingly solder both memory and storage to maximize space and battery life. LPDDR5/LPDDR5X has no SODIMM form factor — it is always soldered. Soldered NAND eliminates the M.2 slot. Batteries are typically still replaceable but are bonded to the chassis with adhesive (heat + careful pry, not a latch). Honest customer conversation: RAM and storage are factory-final on this class of machine; battery service is possible.',
+  },
+
+  {
+    id: 'd1-id-014-var2',
+    type: 'identify',
+    domain: '1',
+    topic: '1.1 Laptop Hardware',
+    difficulty: 'medium',
+    video: 'https://www.youtube.com/watch?v=BCTuxEAA50k',
+    image: '/images/m2-nvme-ssd.jpg',
+    question: 'Two laptops are open on the bench. Laptop A: bottom panel reveals two SODIMM slots and an M.2 2280 NVMe slot with a screw-mounted SSD. Laptop B: bottom panel reveals no slots — RAM and storage chips are soldered directly to the PCB. Which laptop offers an upgrade path to more storage, and how?',
+    options: [
+      'Laptop A — unscrew the existing M.2 NVMe SSD and install a higher-capacity NVMe drive in the same slot. Laptop B has no upgrade path for storage',
+      'Laptop B — soldered storage is faster and can be reflashed to higher capacity',
+      'Both can be upgraded by adding a USB drive',
+      'Neither — modern laptops have no upgradable storage',
+    ],
+    correct: 0,
+    explanation: 'M.2 NVMe is the standard upgradable-SSD form factor in 2020s laptops. A user-or-tech accessible M.2 slot lets you swap the 256 GB drive that shipped for a 1 TB or 2 TB drive in minutes. Laptop B is the soldered-storage path with zero upgrade possible — capacity is whatever was specified at purchase. Recognizing slot vs solder on inspection is the key decision-making moment.',
+  },
+
+  // eSIM lifecycle additions
+  {
+    id: 'd1-id-015',
+    type: 'identify',
+    domain: '1',
+    topic: '1.4 Mobile Device Connectivity (V15 — eSIM)',
+    difficulty: 'easy',
+    video: 'https://www.youtube.com/watch?v=huQwiY4kiko',
+    question: 'A customer buys a new iPhone directly from their carrier (not from Apple). When they power it on, the carrier line is already active without scanning any QR code or entering any activation details. How is that possible?',
+    options: [
+      'The carrier installed a physical SIM at the store before handing the phone over',
+      'eSIM Carrier Activation: when the phone is purchased through the carrier, the carrier pre-associates the eSIM profile with the phone\'s identifier, and on first boot iOS prompts the user to activate the line with a single tap — no QR code needed',
+      'The phone uses a temporary trial line until the user manually activates',
+      'The phone clones the activation from the customer\'s previous device wirelessly',
+    ],
+    correct: 1,
+    explanation: 'eSIM Carrier Activation is the Apple/carrier integration that lets an iPhone bought through the carrier ship pre-provisioned. The carrier ties the eSIM profile to the device IMEI in their backend; on first boot iOS detects the assignment and offers one-tap activation. This is the smoothest activation path for new-line setup. QR codes and 6-digit codes remain the fallback for self-bought phones or carrier transitions.',
+  },
+
+  {
+    id: 'd1-id-015-var1',
+    type: 'identify',
+    domain: '1',
+    topic: '1.4 Mobile Device Connectivity (V15 — eSIM)',
+    difficulty: 'medium',
+    video: 'https://www.youtube.com/watch?v=huQwiY4kiko',
+    question: 'A user dropped their iPhone in a pool. It will not power on at all. They need their phone number active on a replacement iPhone today. The original phone\'s eSIM cannot be transferred via Apple\'s Quick Transfer because the source phone is dead. What is the correct path?',
+    options: [
+      'Wait for the original iPhone to dry out and complete Quick Transfer when it powers on again',
+      'Contact the carrier (call, app, or web account) and request a new eSIM activation for the existing line. The carrier will release the old eSIM provisioning and issue a new QR code or activation code, which the user installs on the replacement iPhone',
+      'Buy a physical SIM and downgrade the new iPhone',
+      'Apple support can extract the eSIM data from the damaged phone',
+    ],
+    correct: 1,
+    explanation: 'Quick Transfer requires both phones to be alive and reachable. When the source phone is dead, the carrier-side path takes over: the carrier holds the line in their database, and they can re-provision a fresh eSIM to a new device. This is the standard "lost / damaged phone" recovery path on every eSIM-supporting carrier. Drying out the old phone is not a reliable repair, and Apple cannot extract eSIM credentials — they live with the carrier, not Apple.',
+  },
+
+  {
+    id: 'd1-id-015-var2',
+    type: 'identify',
+    domain: '1',
+    topic: '1.4 Mobile Device Connectivity (V15 — eSIM)',
+    difficulty: 'medium',
+    video: 'https://www.youtube.com/watch?v=huQwiY4kiko',
+    question: 'A user has a Dual SIM iPhone with two active eSIMs: a personal line (number ending 4422) and a work line (number ending 7855). A friend texts the personal number; a coworker iMessages the work number. What does the user see, and how does iOS identify which line each conversation belongs to?',
+    options: [
+      'Both messages arrive in one shared inbox with no way to tell which line received them',
+      'Each line maintains its own iMessage and SMS thread; iOS labels each conversation with the line it was sent or received on, and the user can choose which line to send replies from per-conversation in Settings → Cellular → Default Voice Line / iMessage / Default Line',
+      'Only the primary line receives iMessages; the secondary is calls only',
+      'iOS merges threads from the same contact even if they came in on different lines',
+    ],
+    correct: 1,
+    explanation: 'Dual SIM iPhones treat each line as its own communication endpoint. iMessage and SMS conversations are threaded per line, the Phone app labels which line a call/voicemail came in on, and Mail/Messages let the user pick the sending line per message. The "default" line settings just control which line gets used when the user doesn\'t explicitly choose. This is what makes Dual SIM useful for separating work/personal or local/travel lines.',
   },
 ]

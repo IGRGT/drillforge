@@ -1,5 +1,5 @@
 // Core 2 (220-1202) — Domain 3: Software Troubleshooting
-// 22% of the exam.
+// 23% of the exam.
 //
 // Authored from the official 220-1202 V15 objectives (Doc Version 3.0).
 // Sub-objectives 3.1 through 3.4 — all "Given a scenario" performance items.

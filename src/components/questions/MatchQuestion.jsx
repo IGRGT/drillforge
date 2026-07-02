@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 
-export default function MatchQuestion({ question, onSubmit, submitted }) {
+export default function MatchQuestion({ question, onSubmit, submitted, onIdk }) {
   const shuffledRight = useMemo(
     () => [...question.pairs].sort(() => Math.random() - 0.5).map(p => p.right),
     [question.id]
@@ -96,25 +96,34 @@ export default function MatchQuestion({ question, onSubmit, submitted }) {
       )}
 
       {!submitted && (
-        <div className="actions">
-          <span style={{ fontSize: 13, color: 'var(--text-muted)', marginRight: 'auto' }}>
+        <>
+          <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 10 }}>
             {activeLeft ? `Select a definition for "${activeLeft}"` : matchedCount < total ? 'Click a term to match it' : 'All matched — submit when ready'}
-          </span>
-          <button
-            className="btn-ghost"
-            onClick={() => { setMatches({}); setActiveLeft(null) }}
-            disabled={matchedCount === 0}
-          >
-            Reset
-          </button>
-          <button
-            className="btn-primary"
-            onClick={submit}
-            disabled={matchedCount !== total}
-          >
-            Submit ({matchedCount}/{total})
-          </button>
-        </div>
+          </div>
+          <div className="actions" style={{ justifyContent: 'space-between' }}>
+            {onIdk ? (
+              <button className="btn-ghost" onClick={onIdk}>
+                I don't know <kbd style={{ marginLeft: 6 }}>0</kbd>
+              </button>
+            ) : <span />}
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button
+                className="btn-ghost"
+                onClick={() => { setMatches({}); setActiveLeft(null) }}
+                disabled={matchedCount === 0}
+              >
+                Reset
+              </button>
+              <button
+                className="btn-primary"
+                onClick={submit}
+                disabled={matchedCount !== total}
+              >
+                Submit ({matchedCount}/{total})
+              </button>
+            </div>
+          </div>
+        </>
       )}
 
     </>

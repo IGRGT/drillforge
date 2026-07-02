@@ -1,5 +1,5 @@
 // Core 2 (220-1202) — Domain 2: Security
-// 25% of the exam.
+// 28% of the exam.
 //
 // Authored from the official 220-1202 V15 objectives (Doc Version 3.0).
 // Sub-objectives 2.1 through 2.11. Messer 220-1202 video URL attached to every

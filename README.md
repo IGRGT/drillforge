@@ -1,3 +1,8 @@
+---
+title: "Drillforge"
+# nous-injected: 2026-05-14-title-pass
+---
+
 # DrillForge — CompTIA A+ PBQ Simulator
 
 Interactive performance-based question simulator covering both CompTIA A+ V15 exams: **220-1201 Core 1** (Mobile, Networking, Hardware, Virtualization, Troubleshooting) and **220-1202 Core 2** (Operating Systems, Security, Software Troubleshooting, Operational Procedures). Authored from the official V15 objectives. ~200 scenarios across all 9 domains.

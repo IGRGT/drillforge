@@ -7,11 +7,16 @@ import { core2Domain1 } from './core2-domain1-os'
 import { core2Domain2 } from './core2-domain2-security'
 import { core2Domain3 } from './core2-domain3-software-troubleshooting'
 import { core2Domain4 } from './core2-domain4-operational-procedures'
+import { expansion20260513 } from './expansion-2026-05-13'
 
 // Existing Core 1 questions don't carry a `core` field — they're tagged here
 // so Core 1 and Core 2 selections never bleed into the same drill.
 const core1All = [...domain1, ...domain2, ...domain3, ...domain4, ...domain5]
   .map(q => q.core ? q : { ...q, core: '1' })
+
+// Expansion file mixes Core 1 (no `core` field) and Core 2 (`core: '2'`).
+// Apply the same auto-tag so Core 1 entries pick up `core: '1'`.
+const expansionTagged = expansion20260513.map(q => q.core ? q : { ...q, core: '1' })
 
 export const allScenarios = [
   ...core1All,
@@ -19,6 +24,7 @@ export const allScenarios = [
   ...core2Domain2,
   ...core2Domain3,
   ...core2Domain4,
+  ...expansionTagged,
 ]
 
 // Weight = 1 baseline + 2× net misses on this exact question + 0.5× net misses
@@ -71,7 +77,7 @@ export const CORE_META = {
   '1': {
     label: 'Core 1 — 220-1201',
     domains: ['1', '2', '3', '4', '5'],
-    weights: { '1': '15%', '2': '20%', '3': '25%', '4': '11%', '5': '29%' },
+    weights: { '1': '13%', '2': '23%', '3': '25%', '4': '11%', '5': '28%' },
     descs: {
       '1': 'Laptop hardware, display, disassembly, mobile devices',
       '2': 'IP addressing, subnets, cables, wireless, network tools',
@@ -90,7 +96,7 @@ export const CORE_META = {
   '2': {
     label: 'Core 2 — 220-1202',
     domains: ['1', '2', '3', '4'],
-    weights: { '1': '31%', '2': '25%', '3': '22%', '4': '22%' },
+    weights: { '1': '28%', '2': '28%', '3': '23%', '4': '21%' },
     descs: {
       '1': 'Windows, macOS, Linux, mobile OS — install, config, CLI',
       '2': 'Malware, MFA, BitLocker, Zero Trust, physical & logical security',

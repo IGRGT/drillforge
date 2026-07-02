@@ -1,10 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import DomainSelector from './components/DomainSelector'
 import PBQRunner from './components/PBQRunner'
 import ScoreBoard from './components/ScoreBoard'
 import ReadinessBar from './components/ReadinessBar'
+import MissedQuestionsBoard from './components/MissedQuestionsBoard'
+import ReviewBoard from './components/ReviewBoard'
 import { getScenarios } from './data'
 import { saveSession, getReadiness, getMissStats } from './hooks/useScores'
+
+const THEME_KEY = 'drillforge.theme'
+
+function readInitialTheme() {
+  try {
+    const stored = localStorage.getItem(THEME_KEY)
+    if (stored === 'light' || stored === 'dark') return stored
+  } catch {}
+  return 'dark'
+}
 
 export default function App() {
   const [screen,       setScreen]       = useState('home')
@@ -14,6 +26,16 @@ export default function App() {
   const [readiness,    setReadiness]    = useState(() => getReadiness())
   const [saved,        setSaved]        = useState(false)
   const [timerSecs,    setTimerSecs]    = useState(0)
+  const [theme,        setTheme]        = useState(readInitialTheme)
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    try { localStorage.setItem(THEME_KEY, theme) } catch {}
+  }, [theme])
+
+  function toggleTheme() {
+    setTheme(t => t === 'dark' ? 'light' : 'dark')
+  }
 
   function startSession({ core = '1', domains, limit, timer = 0, shuffle = true }) {
     // Pull fresh stats each session so questions you just missed/mastered
@@ -36,6 +58,13 @@ export default function App() {
     setSaved(false)
     setTimerSecs(0)
     setScreen('quiz')
+  }
+
+  const [reviewItems, setReviewItems] = useState([])
+  function startReview(items) {
+    if (!items || items.length === 0) return
+    setReviewItems(items)
+    setScreen('review')
   }
 
   function handleAnswer(result) {
@@ -78,18 +107,27 @@ export default function App() {
       <header className="app-header">
         <h1>DrillForge</h1>
         <span className="badge">A+ V15 · Core 1 + Core 2</span>
-        {screen !== 'home' && (
-          <button className="btn-ghost" style={{ marginLeft: 'auto' }} onClick={restart}>
-            ← Exit
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+          <button
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? '☀ Light' : '☾ Dark'}
           </button>
-        )}
+          {screen !== 'home' && (
+            <button className="btn-ghost" onClick={restart}>← Exit</button>
+          )}
+        </div>
       </header>
 
       <main className="main">
         <div className="container">
           {screen === 'home' && (
             <>
-              <ReadinessBar readiness={readiness.readiness} domainAvg={readiness.domainAvg} />
+              <ReadinessBar readiness={readiness.readiness} domainAvg={readiness.domainAvg} domainCounts={readiness.domainCounts} />
+              <MissedQuestionsBoard onDrill={drillMissed} onReview={startReview} />
               <DomainSelector onStart={startSession} />
             </>
           )}
@@ -103,6 +141,13 @@ export default function App() {
               onAnswer={handleAnswer}
               onNext={handleNext}
               onTimeUp={handleTimeUp}
+            />
+          )}
+          {screen === 'review' && (
+            <ReviewBoard
+              items={reviewItems}
+              onBack={restart}
+              onDrill={drillMissed}
             />
           )}
           {screen === 'results' && (

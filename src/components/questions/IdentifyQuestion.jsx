@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 const LETTERS = ['A', 'B', 'C', 'D']
 
-export default function IdentifyQuestion({ question, onSubmit, submitted }) {
+export default function IdentifyQuestion({ question, onSubmit, submitted, onIdk }) {
   const [selected, setSelected] = useState(null)
 
   // Reset when question changes
@@ -66,7 +66,12 @@ export default function IdentifyQuestion({ question, onSubmit, submitted }) {
       </div>
 
       {!submitted && (
-        <div className="actions">
+        <div className="actions" style={{ justifyContent: 'space-between' }}>
+          {onIdk ? (
+            <button className="btn-ghost" onClick={onIdk}>
+              I don't know <kbd style={{ marginLeft: 6 }}>0</kbd>
+            </button>
+          ) : <span />}
           <button className="btn-primary" onClick={submit} disabled={selected === null}>
             Submit
           </button>

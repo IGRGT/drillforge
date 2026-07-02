@@ -176,6 +176,10 @@ export default function DomainSelector({ onStart }) {
           Start Drill →
         </button>
       </div>
+
+      <div style={{ marginTop: 18, fontSize: 12, color: 'var(--text-muted)', textAlign: 'center', lineHeight: 1.5 }}>
+        📖 Stuck on a concept? See <code>Neural Network/Learning/studying/</code> for written explainers.
+      </div>
     </div>
   )
 }
