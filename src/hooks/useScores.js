@@ -9,14 +9,57 @@
 // writes BOTH formats (raw + summary.json) into that folder. The folder
 // handle persists in IndexedDB across reloads. No manual export step needed.
 
+import { allScenarios } from '../data'
+
 const KEY = 'pbq_scores'
-const WEIGHTS = { '1': 0.15, '2': 0.20, '3': 0.25, '4': 0.11, '5': 0.29 }
+const WEIGHTS = { '1': 0.13, '2': 0.23, '3': 0.25, '4': 0.11, '5': 0.28 }
 const DOMAIN_NAMES = {
   '1': 'D1 Mobile',
   '2': 'D2 Networking',
   '3': 'D3 Hardware',
   '4': 'D4 Virt/Cloud',
   '5': 'D5 Troubleshooting',
+}
+
+// A question is "mastered" once Gil has gotten it right at least twice across
+// any sessions. Tapping a few easy ones correctly over and over no longer
+// inflates the score — only NEW unique questions getting solidified do.
+const MASTERY_THRESHOLD = 2
+
+function isMastered(cell) {
+  if (!cell) return false
+  // New schema: explicit count of times the question was answered correctly
+  // (full or partial credit both count as 1 toward mastery — "right twice"
+  // means twice, regardless of whether each time was first-try or retry).
+  if (cell.corrects != null) return cell.corrects >= MASTERY_THRESHOLD
+  // Legacy schema (entries from before mastery tracking): fall back to hit
+  // accumulator. Two clean firsts = 2.0 hit; this captures the same idea
+  // for old data conservatively.
+  return (cell.hit ?? 0) >= MASTERY_THRESHOLD
+}
+
+// Total available questions per (core, domain). Cached.
+let totalsCache = null
+function totalQuestionsByDomain(core = '1') {
+  if (totalsCache && totalsCache.core === core) return totalsCache.totals
+  const totals = {}
+  allScenarios.forEach(q => {
+    if (q.core !== core) return
+    totals[q.domain] = (totals[q.domain] || 0) + 1
+  })
+  totalsCache = { core, totals }
+  return totals
+}
+
+function masteredCountByDomain(byId, core = '1') {
+  const counts = {}
+  allScenarios.forEach(q => {
+    if (q.core !== core) return
+    if (isMastered(byId[q.id])) {
+      counts[q.domain] = (counts[q.domain] || 0) + 1
+    }
+  })
+  return counts
 }
 
 // ── localStorage layer ──────────────────────────────────────────────────────
@@ -145,23 +188,21 @@ async function writeFileToFolder(folder, filename, content) {
 
 function buildSummary(store) {
   const sessions = store.sessions || []
+  const byId     = store.stats?.byId || {}
 
-  // Same confidence-weighting logic as getReadiness — keeps the dashboard
-  // and the in-app number aligned.
+  // Mastery-based: a domain's score is the % of its unique questions that
+  // Gil has gotten right at least twice. Re-tapping the same easy ones
+  // can no longer inflate this — only mastering NEW questions moves it.
+  const totals    = totalQuestionsByDomain('1')
+  const masteredC = masteredCountByDomain(byId, '1')
+
   const domainAvg = {}
   const domainQuestions = {}
   Object.keys(WEIGHTS).forEach(d => {
-    const relevant = sessions.filter(s => s.domainBreakdown?.[d]).slice(-5)
-    if (relevant.length === 0) { domainAvg[d] = 0; domainQuestions[d] = 0; return }
-    const totalQ = relevant.reduce((sum, s) => sum + s.domainBreakdown[d].total, 0)
-    const totalP = relevant.reduce(
-      (sum, s) => sum + (s.domainBreakdown[d].points ?? s.domainBreakdown[d].correct),
-      0
-    )
-    const rawPct     = totalQ > 0 ? (totalP / totalQ) * 100 : 0
-    const confidence = Math.min(1, totalQ / CONFIDENCE_THRESHOLD)
-    domainAvg[d] = Math.round(rawPct * confidence)
-    domainQuestions[d] = totalQ
+    const m = masteredC[d] || 0
+    const t = totals[d] || 0
+    domainAvg[d] = t > 0 ? Math.round((m / t) * 100) : 0
+    domainQuestions[d] = t
   })
 
   const weightSum = Object.values(WEIGHTS).reduce((a, b) => a + b, 0)
@@ -183,14 +224,18 @@ function buildSummary(store) {
     lastActivity = `${yyyy}-${mm}-${dd}T12:00:00Z`
   }
 
+  const totalMastered = Object.keys(WEIGHTS).reduce((s, d) => s + (masteredC[d] || 0), 0)
+  const totalAvailable = Object.keys(WEIGHTS).reduce((s, d) => s + (totals[d] || 0), 0)
+
   return {
     name: 'CompTIA A+',
     abbrev: 'A+',
     readiness_pct: Math.round(readiness),
-    headline_stat: `${sessions.length} session${sessions.length === 1 ? '' : 's'} logged · readiness ${Math.round(readiness)}%`,
+    headline_stat: `${sessions.length} session${sessions.length === 1 ? '' : 's'} · ${totalMastered}/${totalAvailable} questions mastered (right twice+)`,
     sub_bars: Object.keys(WEIGHTS).map(d => ({
       label: DOMAIN_NAMES[d],
       pct: domainAvg[d],
+      mastered: masteredC[d] || 0,
       questions: domainQuestions[d],
     })),
     last_activity: lastActivity,
@@ -230,9 +275,14 @@ export function saveSession(results) {
     const { question } = r
     const hitDelta  = (r.correct && !r.partial) ? 1   : (r.correct && r.partial) ? 0.5 : 0
     const missDelta = (r.correct && !r.partial) ? 0   : (r.correct && r.partial) ? 0.5 : 1
-    const idCell = store.stats.byId[question.id] ||= { miss: 0, hit: 0 }
-    idCell.hit  += hitDelta
-    idCell.miss += missDelta
+    // Track unambiguous correctness counts for mastery (any-credit correct = 1).
+    const correctDelta  = r.correct ? 1 : 0
+    const attemptDelta  = 1
+    const idCell = store.stats.byId[question.id] ||= { miss: 0, hit: 0, attempts: 0, corrects: 0 }
+    idCell.hit       += hitDelta
+    idCell.miss      += missDelta
+    idCell.attempts   = (idCell.attempts ?? 0) + attemptDelta
+    idCell.corrects   = (idCell.corrects ?? 0) + correctDelta
     const topicCell = store.stats.byTopic[question.topic] ||= { miss: 0, hit: 0 }
     topicCell.hit  += hitDelta
     topicCell.miss += missDelta
@@ -284,32 +334,36 @@ export function saveSession(results) {
   return session
 }
 
-// Confidence weighting: a domain only gets FULL credit once you've drilled
-// at least ~10 questions in it. Below that, the score is scaled down so a
-// single 1-question session at 100% doesn't read as "domain mastered."
-const CONFIDENCE_THRESHOLD = 10
-
+// Mastery-based readiness:
+//   per-domain % = (unique questions mastered) / (total questions in domain) × 100
+//   "mastered" = answered correctly at least twice across any sessions
+// Final readiness = exam-weighted sum of the per-domain percentages.
+//
+// This rewards COVERAGE plus solidification: tapping the same easy ones
+// correctly over and over no longer moves the needle once they're mastered.
+// Untouched domains stay at 0% honestly.
 export function getReadiness() {
-  const { sessions } = load()
-  const domainAvg = {}
+  const { stats } = load()
+  const byId      = stats?.byId || {}
+
+  const totals    = totalQuestionsByDomain('1')
+  const masteredC = masteredCountByDomain(byId, '1')
+
+  const domainAvg    = {}
+  const domainCounts = {}  // { mastered, total } per domain — for display
   Object.keys(WEIGHTS).forEach(d => {
-    const relevant = sessions.filter(s => s.domainBreakdown[d]).slice(-5)
-    if (relevant.length === 0) { domainAvg[d] = 0; return }
-    const totalQ = relevant.reduce((sum, s) => sum + s.domainBreakdown[d].total, 0)
-    // Point-weighted score (retries count half). Old sessions fall back to .correct.
-    const totalP = relevant.reduce(
-      (sum, s) => sum + (s.domainBreakdown[d].points ?? s.domainBreakdown[d].correct),
-      0
-    )
-    const rawPct     = totalQ > 0 ? (totalP / totalQ) * 100 : 0
-    const confidence = Math.min(1, totalQ / CONFIDENCE_THRESHOLD)
-    domainAvg[d] = Math.round(rawPct * confidence)
+    const m = masteredC[d] || 0
+    const t = totals[d] || 0
+    domainAvg[d] = t > 0 ? Math.round((m / t) * 100) : 0
+    domainCounts[d] = { mastered: m, total: t }
   })
+
   const weightSum = Object.values(WEIGHTS).reduce((a, b) => a + b, 0)
   const readiness = Object.entries(WEIGHTS).reduce((sum, [d, w]) => {
     return sum + (domainAvg[d] * w)
   }, 0) / weightSum
-  return { readiness: Math.round(readiness), domainAvg }
+
+  return { readiness: Math.round(readiness), domainAvg, domainCounts }
 }
 
 export function getAllSessions() {
@@ -333,4 +387,48 @@ export function exportJSON() {
   a.download  = `pbq-scores-${date}.json`
   a.click()
   URL.revokeObjectURL(url)
+}
+
+// Manual import — reads an exported JSON file and merges into localStorage.
+// Sessions merged by id (no duplicates). Stats summed additively.
+export function importJSON(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const incoming = JSON.parse(e.target.result)
+        if (!incoming.sessions || !incoming.stats) throw new Error('Invalid file — not a DrillForge export.')
+        const existing = load()
+        const existingIds = new Set(existing.sessions.map(s => s.id))
+        const merged = {
+          sessions: [
+            ...existing.sessions,
+            ...incoming.sessions.filter(s => !existingIds.has(s.id)),
+          ],
+          stats: {
+            byId:    { ...incoming.stats.byId },
+            byTopic: { ...incoming.stats.byTopic },
+          },
+        }
+        Object.entries(existing.stats.byId || {}).forEach(([id, cell]) => {
+          if (!merged.stats.byId[id]) { merged.stats.byId[id] = cell; return }
+          merged.stats.byId[id].hit      = (merged.stats.byId[id].hit      || 0) + (cell.hit      || 0)
+          merged.stats.byId[id].miss     = (merged.stats.byId[id].miss     || 0) + (cell.miss     || 0)
+          merged.stats.byId[id].attempts = (merged.stats.byId[id].attempts || 0) + (cell.attempts || 0)
+          merged.stats.byId[id].corrects = (merged.stats.byId[id].corrects || 0) + (cell.corrects || 0)
+        })
+        Object.entries(existing.stats.byTopic || {}).forEach(([topic, cell]) => {
+          if (!merged.stats.byTopic[topic]) { merged.stats.byTopic[topic] = cell; return }
+          merged.stats.byTopic[topic].hit  = (merged.stats.byTopic[topic].hit  || 0) + (cell.hit  || 0)
+          merged.stats.byTopic[topic].miss = (merged.stats.byTopic[topic].miss || 0) + (cell.miss || 0)
+        })
+        save(merged)
+        resolve()
+      } catch (err) {
+        reject(err)
+      }
+    }
+    reader.onerror = () => reject(new Error('Could not read file.'))
+    reader.readAsText(file)
+  })
 }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { useRef } from 'react'
 import {
   exportJSON,
+  importJSON,
   getAllSessions,
   isFSAccessSupported,
   connectDataFolder,
@@ -17,7 +19,7 @@ const DOMAIN_LABELS_SHORT = {
 }
 
 const DOMAIN_WEIGHTS = {
-  '1': 15, '2': 20, '3': 25, '4': 11, '5': 29
+  '1': 13, '2': 23, '3': 25, '4': 11, '5': 28
 }
 
 const DOMAIN_COLOR = {
@@ -34,14 +36,17 @@ function readinessColor(pct) {
   return 'var(--accent)'
 }
 
-export default function ReadinessBar({ readiness, domainAvg }) {
+export default function ReadinessBar({ readiness, domainAvg, domainCounts = {} }) {
   const sessions  = getAllSessions()
   const lastDrill = sessions.length > 0
     ? new Date(sessions[sessions.length - 1].date).toLocaleDateString()
     : null
 
   const [folderConnected, setFolderConnected] = useState(false)
-  const [connectError, setConnectError] = useState(null)
+  const [connectError, setConnectError]       = useState(null)
+  const [importError,  setImportError]        = useState(null)
+  const [importDone,   setImportDone]         = useState(false)
+  const fileInputRef = useRef(null)
   const fsSupported = isFSAccessSupported()
 
   useEffect(() => {
@@ -76,7 +81,8 @@ export default function ReadinessBar({ readiness, domainAvg }) {
               : `${sessions.length} session${sessions.length !== 1 ? 's' : ''} logged${lastDrill ? ' · last drilled ' + lastDrill : ''}`}
           </div>
           <div className="readiness-formula-hint">
-            Weighted % of exam content drilled at passing level. Undrilled domains count as 0%.
+            Weighted % of exam questions <em>mastered</em> (answered right at least twice).
+            Undrilled questions and one-off correct attempts don't count.
           </div>
         </div>
         <div className="readiness-pct" style={{ color: readinessColor(readiness) }}>
@@ -104,8 +110,9 @@ export default function ReadinessBar({ readiness, domainAvg }) {
       {/* Per-domain breakdown */}
       <div className="readiness-domains">
         {['1', '2', '3', '4', '5'].map(d => {
-          const avg  = domainAvg[d] ?? 0
-          const done = avg > 0
+          const avg    = domainAvg[d] ?? 0
+          const counts = domainCounts[d] || { mastered: 0, total: 0 }
+          const done   = counts.mastered > 0
           return (
             <div key={d} className="readiness-domain-row">
               <div className="readiness-domain-name">
@@ -126,8 +133,9 @@ export default function ReadinessBar({ readiness, domainAvg }) {
               <div
                 className="readiness-domain-pct"
                 style={{ color: done ? (avg >= 75 ? 'var(--correct)' : 'var(--warning)') : 'var(--text-muted)' }}
+                title={`${counts.mastered} of ${counts.total} questions mastered`}
               >
-                {done ? `${avg}%` : '—'}
+                {counts.total > 0 ? `${counts.mastered}/${counts.total}` : '—'}
               </div>
             </div>
           )
@@ -168,11 +176,38 @@ export default function ReadinessBar({ readiness, domainAvg }) {
         )}
       </div>
 
-      {sessions.length > 0 && (
-        <button className="readiness-export" onClick={exportJSON}>
-          ↓ Export scores JSON (manual fallback)
+      <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap' }}>
+        {sessions.length > 0 && (
+          <button className="readiness-export" onClick={exportJSON}>
+            ↓ Export scores JSON
+          </button>
+        )}
+        <button className="readiness-export" onClick={() => fileInputRef.current?.click()}>
+          ↑ Import scores JSON
         </button>
-      )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".json"
+          style={{ display: 'none' }}
+          onChange={async (e) => {
+            const file = e.target.files?.[0]
+            if (!file) return
+            setImportError(null)
+            setImportDone(false)
+            try {
+              await importJSON(file)
+              setImportDone(true)
+              setTimeout(() => window.location.reload(), 800)
+            } catch (err) {
+              setImportError(err.message)
+            }
+            e.target.value = ''
+          }}
+        />
+        {importDone  && <span style={{ fontSize: '12px', color: 'var(--correct)', alignSelf: 'center' }}>Imported — reloading…</span>}
+        {importError && <span style={{ fontSize: '12px', color: 'var(--incorrect)', alignSelf: 'center' }}>{importError}</span>}
+      </div>
     </div>
   )
 }
